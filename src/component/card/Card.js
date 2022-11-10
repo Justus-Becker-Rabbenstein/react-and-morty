@@ -1,20 +1,34 @@
-import React from "react";
 import styled from "styled-components";
+import { useEffect, useState } from "react";
 
 export const Card = () => {
+  /* API FETCH FUNCTION START */
+  // ram = Rick and Morty
+  const [ramApiData, SetRamApiData] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch("https://rickandmortyapi.com/api/character");
+      const data = await response.json();
+      SetRamApiData(data.results);
+    }
+    fetchData();
+    // function only called once because of empty dependency array
+  }, []);
+
   return (
     <CardContainer>
-      <li>
-        <img
-          src="https://rickandmortyapi.com/api/character/avatar/2.jpeg
-        "
-          alt="rick-and-morty-character"
-        />
-        <h2>Morty Smith</h2>
-        <a href="#">
-          <button>show more</button>
-        </a>
-      </li>
+      {ramApiData.map((character) => {
+        return (
+          <li>
+            <img src={character.image} alt={character.name} />
+            <h2>{character.name}</h2>
+            <a href="#">
+              <button>show more</button>
+            </a>
+          </li>
+        );
+      })}
     </CardContainer>
   );
 };
