@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
@@ -19,13 +18,11 @@ export const Card = () => {
 
   return (
     <CardContainer>
-      {console.log(ramApiData)}
-      {console.log(ramApiData.image)}
       {ramApiData.map((character) => {
         return (
           <li>
-            <img src={`${character.image}`} alt={`${character.name}`} />
-            <h2>{`${character.name}`}</h2>
+            <img src={character.image} alt={character.name} />
+            <h2>{character.name}</h2>
             <a href="#">
               <button>show more</button>
             </a>
