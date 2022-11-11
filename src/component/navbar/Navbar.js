@@ -1,19 +1,39 @@
-import React from "react";
 import styled from "styled-components";
 
-export const Navbar = () => {
+export const Navbar = ({ onClickPage }) => {
   return (
     <footer>
       <nav>
         <UlContainer>
           <li>
-            <a href="#">Homepage</a>
+            <a
+              href="#"
+              onClick={(event) => {
+                onClickPage("Homepage");
+              }}
+            >
+              Homepage
+            </a>
           </li>
           <li>
-            <a href="#">Favorite</a>
+            <a
+              href="#"
+              onClick={(event) => {
+                onClickPage("Favorite");
+              }}
+            >
+              Favorite
+            </a>
           </li>
           <li>
-            <a href="#">Random</a>
+            <a
+              href="#"
+              onClick={(event) => {
+                onClickPage("Random");
+              }}
+            >
+              Random
+            </a>
           </li>
           <li>Other</li>
         </UlContainer>
