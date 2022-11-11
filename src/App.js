@@ -16,14 +16,30 @@ function App() {
   };
   /* End: Page Switch Logic */
 
+  /* Start: Character Page Logic */
+  const [oneCharacter, setOneCharacter] = useState([]);
+  const onClickCharacter = (characterName) => {
+    setOneCharacter(characterName);
+  };
+  /* End: Character Page Logic */
+
   return (
     <div className="App">
       <Header />
       <main>
-        {currentPage === "Homepage" ? <Card onClickPage={onClickPage} /> : ""}
+        {console.log(oneCharacter)}
+        {currentPage === "Homepage" ? (
+          <Card onClickPage={onClickPage} onClickCharacter={onClickCharacter} />
+        ) : (
+          ""
+        )}
         {currentPage === "Favorite" ? <p>Dummy Page Favorite</p> : ""}
         {currentPage === "Random" ? <p>Dummy Page Random</p> : ""}
-        {currentPage === "Character" ? <Character /> : ""}
+        {currentPage === "Character" ? (
+          <Character oneCharacter={oneCharacter} />
+        ) : (
+          ""
+        )}
       </main>
       <Navbar onClickPage={onClickPage} />
     </div>

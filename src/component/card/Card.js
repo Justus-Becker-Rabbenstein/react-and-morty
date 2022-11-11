@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
-export const Card = ({ onClickPage }) => {
+export const Card = ({ onClickPage, onClickCharacter }) => {
   /* API FETCH FUNCTION START */
   // ram = Rick and Morty
   const [ramApiData, SetRamApiData] = useState([]);
@@ -23,15 +23,14 @@ export const Card = ({ onClickPage }) => {
           <li>
             <img src={character.image} alt={character.name} />
             <h2>{character.name}</h2>
-            <a href="#">
-              <button
-                onClick={(event) => {
-                  onClickPage("Character");
-                }}
-              >
-                show more
-              </button>
-            </a>
+            <button
+              onClick={function name(params) {
+                onClickPage("Character");
+                onClickCharacter(character);
+              }}
+            >
+              show more
+            </button>
           </li>
         );
       })}
