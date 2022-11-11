@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
-export const Card = ({ onClickPage, onClickCharacter }) => {
+export const Card = ({ onClickPage, onClickCharacter, onClickCharacters }) => {
   /* API FETCH FUNCTION START */
   // ram = Rick and Morty
   const [ramApiData, SetRamApiData] = useState([]);
@@ -15,6 +15,7 @@ export const Card = ({ onClickPage, onClickCharacter }) => {
     fetchData();
     // function only called once because of empty dependency array
   }, []);
+  /* API FETCH FUNCTION END */
 
   return (
     <CardContainer>
@@ -24,9 +25,10 @@ export const Card = ({ onClickPage, onClickCharacter }) => {
             <img src={character.image} alt={character.name} />
             <h2>{character.name}</h2>
             <button
-              onClick={function name(params) {
+              onClick={function () {
                 onClickPage("Character");
                 onClickCharacter(character);
+                onClickCharacters(ramApiData);
               }}
             >
               show more

@@ -7,6 +7,7 @@ import { Header } from "./component/header/Header";
 import { Card } from "./component/card/Card";
 import { Navbar } from "./component/navbar/Navbar";
 import { Character } from "./component/character/Character";
+import { Favorite } from "./pages/favorite/Favorite";
 
 function App() {
   /* Start: Page Switch Logic */
@@ -16,27 +17,49 @@ function App() {
   };
   /* End: Page Switch Logic */
 
-  /* Start: Character Page Logic */
+  /* Start: lift all characters from Card.js */
+  const [allCharacters, setAllCharacters] = useState([]);
+  const onClickCharacters = (characterNames) => {
+    setAllCharacters(characterNames);
+  };
+  /* End: lift all characters from Card.js */
+
+  /* Start: lift one character from Card.js */
   const [oneCharacter, setOneCharacter] = useState([]);
   const onClickCharacter = (characterName) => {
     setOneCharacter(characterName);
+    function putIntoAllCharacters() {
+      const newArray = [...allCharacters, oneCharacter];
+      setAllCharacters(newArray);
+    }
+    putIntoAllCharacters();
   };
-  /* End: Character Page Logic */
+  /* End: lift one character from Card.js */
 
   return (
     <div className="App">
       <Header />
       <main>
-        {console.log(oneCharacter)}
         {currentPage === "Homepage" ? (
-          <Card onClickPage={onClickPage} onClickCharacter={onClickCharacter} />
+          <Card
+            onClickPage={onClickPage}
+            onClickCharacter={onClickCharacter}
+            onClickCharacters={onClickCharacters}
+          />
         ) : (
           ""
         )}
-        {currentPage === "Favorite" ? <p>Dummy Page Favorite</p> : ""}
+        {currentPage === "Favorite" ? (
+          <Favorite oneCharacter={oneCharacter} allCharacters={allCharacters} />
+        ) : (
+          ""
+        )}
         {currentPage === "Random" ? <p>Dummy Page Random</p> : ""}
         {currentPage === "Character" ? (
-          <Character oneCharacter={oneCharacter} />
+          <Character
+            oneCharacter={oneCharacter}
+            onClickCharacter={onClickCharacter}
+          />
         ) : (
           ""
         )}
