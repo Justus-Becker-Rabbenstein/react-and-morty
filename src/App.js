@@ -2,14 +2,32 @@
 import "./App.css";
 // Import: React
 import { useState } from "react";
+import { useEffect } from "react";
 // Import: Components
 import { Header } from "./component/header/Header";
 import { Card } from "./component/card/Card";
 import { Navbar } from "./component/navbar/Navbar";
-import { Character } from "./component/character/Character";
 import { Favorite } from "./pages/favorite/Favorite";
 
 function App() {
+  /* API FETCH FUNCTION START */
+  // ram = Rick and Morty
+  const [ramApiData, SetRamApiData] = useState([]);
+  const setterRamApiData = (changeRamApiData) => {
+    SetRamApiData(changeRamApiData);
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch("https://rickandmortyapi.com/api/character");
+      const data = await response.json();
+      SetRamApiData(data.results);
+    }
+    fetchData();
+    // function only called once because of empty dependency array
+  }, []);
+  /* API FETCH FUNCTION END */
+
   /* Start: Page Switch Logic */
   const [currentPage, setCurrentPage] = useState("Homepage");
   const onClickPage = (pageName) => {
@@ -17,24 +35,11 @@ function App() {
   };
   /* End: Page Switch Logic */
 
-  /* Start: lift all characters from Card.js */
-  const [allCharacters, setAllCharacters] = useState([]);
-  const onClickCharacters = (characterNames) => {
-    setAllCharacters(characterNames);
+  // get Index of clicked Character for single Character page
+  const [indexOfClicked, setIndexOfClicked] = useState(0);
+  const onClickCharacterIndex = (clickedIndex) => {
+    setIndexOfClicked(clickedIndex);
   };
-  /* End: lift all characters from Card.js */
-
-  /* Start: lift one character from Card.js */
-  const [oneCharacter, setOneCharacter] = useState([]);
-  const onClickCharacter = (characterName) => {
-    setOneCharacter(characterName);
-    function putIntoAllCharacters() {
-      const newArray = [...allCharacters, oneCharacter];
-      setAllCharacters(newArray);
-    }
-    putIntoAllCharacters();
-  };
-  /* End: lift one character from Card.js */
 
   return (
     <div className="App">
@@ -42,27 +47,20 @@ function App() {
       <main>
         {currentPage === "Homepage" ? (
           <Card
-            onClickPage={onClickPage}
-            onClickCharacter={onClickCharacter}
-            onClickCharacters={onClickCharacters}
+            ramApiData={ramApiData}
+            setterRamApiData={setterRamApiData}
+            indexOfClicked={indexOfClicked}
+            onClickCharacterIndex={onClickCharacterIndex}
           />
         ) : (
           ""
         )}
         {currentPage === "Favorite" ? (
-          <Favorite oneCharacter={oneCharacter} allCharacters={allCharacters} />
+          <Favorite ramApiData={ramApiData} />
         ) : (
           ""
         )}
         {currentPage === "Random" ? <p>Dummy Page Random</p> : ""}
-        {currentPage === "Character" ? (
-          <Character
-            oneCharacter={oneCharacter}
-            onClickCharacter={onClickCharacter}
-          />
-        ) : (
-          ""
-        )}
       </main>
       <Navbar onClickPage={onClickPage} />
     </div>

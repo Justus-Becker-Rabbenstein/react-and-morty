@@ -1,41 +1,29 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Character } from "../character/Character";
 
-export const Card = ({ onClickPage, onClickCharacter, onClickCharacters }) => {
-  /* API FETCH FUNCTION START */
-  // ram = Rick and Morty
-  const [ramApiData, SetRamApiData] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch("https://rickandmortyapi.com/api/character");
-      const data = await response.json();
-      SetRamApiData(data.results);
-    }
-    fetchData();
-    // function only called once because of empty dependency array
-  }, []);
-  /* API FETCH FUNCTION END */
+export const Card = ({  ramApiData, indexOfClicked, onClickCharacterIndex, setterRamApiData }) => {
+  // Render (all Characters) in Home or one Character based on onClick event
+  const [clickedCharacterButton, setClickedCharacterButton] = useState(false);
 
   return (
     <CardContainer>
-      {ramApiData.map((character) => {
+      {clickedCharacterButton === false ? ramApiData.map((character) => {
         return (
           <li>
             <img src={character.image} alt={character.name} />
             <h2>{character.name}</h2>
             <button
               onClick={function () {
-                onClickPage("Character");
-                onClickCharacter(character);
-                onClickCharacters(ramApiData);
+                onClickCharacterIndex(ramApiData.indexOf(character));
+                setClickedCharacterButton(true);
               }}
             >
               show more
             </button>
           </li>
         );
-      })}
+      }) : <Character ramApiData={ramApiData} indexOfClicked={indexOfClicked} onClickCharacterIndex={onClickCharacterIndex} setterRamApiData={setterRamApiData} />}
     </CardContainer>
   );
 };
